@@ -5,7 +5,6 @@
     3. Положите результат вызова метода get_full_name в переменную и распечатайте ее.
 """
 
-
 class Student:
     def __init__(self, name: str, surname: str, faculty: str, course: int):
         self.name = name
@@ -18,5 +17,6 @@ class Student:
 
 
 if __name__ == '__main__':
-    pass  # код писать тут
+    student = Student("Artem", "Nikiforov", "DevOps", 1)
+    print(student.get_full_name())
 
