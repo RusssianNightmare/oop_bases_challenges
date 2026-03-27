@@ -9,8 +9,15 @@
 
 
 class Product:
-    pass  # код писать тут
+    def __init__(self, name: str, description: str, price: int | str, weight: int):
+        self.name = name
+        self.description = description
+        self.price = price
+        self.weight = weight
+    def get_info_product(self):
+        return f'Информация о продукте: {self.name}, {self.description}, {self.price} р., {self.weight} гр.'
 
 
 if __name__ == '__main__':
-    pass  # код писать тут
+    product = Product("Bananas", "They are yellow, from tropical countries, very tastye", 30, 100)
+    print(product.get_info_product())
