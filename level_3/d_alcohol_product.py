@@ -26,8 +26,20 @@ class Product:
 
 
 class AlcoholProduct(Product):
-    pass  # код писать тут
+    def __init__(self, title, price, stock_quantity):
+        super().__init__(title, price, stock_quantity)
+    def is_available(self):
+        super().is_available()
+        if 5 < datetime.now().hour < 23:
+            return False
+        else:
+            return f'Пейте на здоровье'
 
 
 if __name__ == '__main__':
-    pass  # код писать тут
+    product = Product('teqila', 1000, 15)
+    print(product.get_discounted_price(0.75))
+    print(product.is_available())
+
+    alco = AlcoholProduct('teqila', 1000, 15)
+    print(alco.is_available())
