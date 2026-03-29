@@ -1,57 +1,40 @@
-"""
-У нас есть класс FileHandler, который может считывать файлы, но не всегда в удобном для нас виде.
-Поэтому мы создали два его наследника: CSVHandler и JSONHandler
-
-Задания:
-    1. Переопределите метод read у CSVHandler и JSONHandler
-    2. Метод read у JSONHandler должен возвращать словарь. Для этого используйте модуль встроенный модуль json
-    3. Метод read у CSVHandler должен возвращать список словарей. Для этого используйте модуль встроенный модуль csv
-    4. Создайте экземпляры каждого из трех классов.
-       С помощью экземпляра FileHandler прочитайте и распечатайте содержимое файла text.txt
-       С помощью экземпляра JSONHandler прочитайте и распечатайте содержимое файла recipes.json
-       С помощью экземпляра CSVHandler прочитайте и распечатайте содержимое файла user_info.csv
-
-"""
-import csv
-import json
+'''Задания:
+    1. Переопределите метод is_available в классе AlcoholProduct с использованием super()
+    2. is_available у AlcoholProduct должен возвращать False если сейчас часы между 5 утра и 11 вечера.
+       Для определения текущего часа можно использовать datetime.now().hour
+    3. Создайте экземпляр класса AlcoholProduct и проверьте, можно ли сейчас продавать алкоголь.
+'''
+from datetime import datetime
 
 
-class FileHandler:
-    def __init__(self, filename):
-        self.filename = filename
+class Product:
+    def __init__(self, title, price, stock_quantity):
+        self.title = title
+        self.price = price
+        self.stock_quantity = stock_quantity
 
-    def read(self):
-        with open(self.filename, 'r', encoding='utf-8') as file:
-            return file.read()
+    def get_discounted_price(self, discount_percentage):
+        return self.price * (1 - discount_percentage / 100)
 
-
-class JSONHandler(FileHandler):
-    def __init__(self, filename):
-        super().__init__(filename)
-    def read(self):
-        with open(self.filename, 'r') as file:
-            return json.load(file)
+    def is_available(self):
+        return self.stock_quantity > 0
 
 
-
-
-class CSVHandler(FileHandler):
-    def __init__(self, filename):
-        super().__init__(filename)
-    def read(self):
-        with open(self.filename, 'r', encoding='utf-8') as file:
-            csv_reader = csv.DictReader(file)
-            data = [row for row in csv_reader]
-            return data
-
+class AlcoholProduct(Product):
+    def __init__(self, title, price, stock_quantity):
+        super().__init__(title, price, stock_quantity)
+    def is_available(self):
+        super().is_available()
+        if 5 < datetime.now().hour < 24:
+            return False
+        else:
+            return f'Пейте на здоровье'
 
 
 if __name__ == '__main__':
-    hand = FileHandler('text.txt')
-    print(hand.read())
+    product = Product('teqila', 1000, 15)
+    print(product.get_discounted_price(0.75))
+    print(product.is_available())
 
-    jsn = JSONHandler('recipes.json')
-    print(jsn.read())
-
-    cs = CSVHandler('user_info.csv')
-    print(cs.read())
+    alco = AlcoholProduct('teqila', 1000, 15)
+    print(alco.is_available())
