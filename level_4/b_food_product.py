@@ -26,8 +26,25 @@ class Product:
 
 
 class FoodProduct(Product):
-    pass  # код писать тут
+    def __init__(self, title, quantity, expiration_date):
+        super().__init__(title, quantity)
+        self.expiration_date = expiration_date
+
+    def get_full_info(self):
+        return super().get_full_info()
+
+    def is_available(self):
+        today = datetime.today()
+        if self.expiration_date < today.strftime('%d %m %Y'):
+            return False, super().is_available()
+
 
 
 if __name__ == '__main__':
-    pass  # код писать тут
+    prod = Product('milk', 15)
+    print(prod.get_full_info())
+    print(prod.is_available())
+
+    food = FoodProduct('yogurt', 10, '28 03 2026')
+    print(food.get_full_info())
+    print(food.is_available())
