@@ -21,17 +21,37 @@ class FileHandler:
         self.filename = filename
 
     def read(self):
-        with open(self.filename, 'r') as file:
+        with open(self.filename, 'r', encoding='utf-8') as file:
             return file.read()
 
 
 class JSONHandler(FileHandler):
-    pass  # код писать тут
+    def __init__(self, filename):
+        super().__init__(filename)
+    def read(self):
+        with open(self.filename, 'r') as file:
+            return json.load(file)
+
+
 
 
 class CSVHandler(FileHandler):
-    pass  # код писать тут
+    def __init__(self, filename):
+        super().__init__(filename)
+    def read(self):
+        with open(self.filename, 'r', encoding='utf-8') as file:
+            csv_reader = csv.DictReader(file)
+            data = [row for row in csv_reader]
+            return data
+
 
 
 if __name__ == '__main__':
-    pass  # код писать тут
+    hand = FileHandler('text.txt')
+    print(hand.read())
+
+    jsn = JSONHandler('recipes.json')
+    print(jsn.read())
+
+    cs = CSVHandler('user_info.csv')
+    print(cs.read())
